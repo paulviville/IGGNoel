@@ -55,6 +55,8 @@
 				"joker",
 				"cookies",
 				"lunges",
+				"v-ups",
+				"climbers",
 			]
 			let nb_punish = punishments.length;
 			let materials = [];
@@ -129,14 +131,22 @@
 			fontLoader.load('./helvetiker_regular.typeface.json', function (response){
 				font = response;
 
+				let material = new THREE.MeshBasicMaterial( { color: 0x000000 } );
 				for(let i = 0; i < nb_punish; ++i){
 					materials[i] = new THREE.MeshBasicMaterial({color: new THREE.Color(Math.random() / 2, Math.random() / 2, Math.random() / 2)})
 					// let cube = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 1, 1), materials[i]);
 					let mesh = create_text(punishments[i], materials[i]);
+					let ray = new THREE.Mesh(new THREE.PlaneBufferGeometry( 0.05, 3 ), material) 
+					ray.position.y = 1.5
+					ray.position.z = -0.15
 					let spoke = new THREE.Group;
+					let spoke2 = new THREE.Group;
 					spoke.add(mesh);
 					wheel.add(spoke);
+					wheel.add(spoke2);
+					spoke2.add(ray);
 					spoke.setRotationFromAxisAngle(ZAxis, i * Math.PI * 2 / nb_punish);
+					spoke2.setRotationFromAxisAngle(ZAxis, (i + 0.5) * Math.PI *2 / nb_punish);
 				}
 
 			});
@@ -155,7 +165,7 @@
 					raycaster.setFromCamera(mouse, camera);
 					let intersections = raycaster.intersectObjects([play_cube]);
 					if(intersections.length){
-						remaining_rotation += (parseInt(Math.random() * 100) + nb_punish) * Math.PI * 2 / nb_punish;
+						remaining_rotation += (parseInt(Math.random() * 500) + nb_punish * 3) * Math.PI * 2 / nb_punish;
 						console.log(remaining_rotation)
 						speed = 15
 					}
@@ -179,6 +189,7 @@
 				if(remaining_rotation > 0){
 					remaining_rotation -= delta;
 					rotation = (rotation > 2 * Math.PI ? rotation - 2 * Math.PI : rotation) + delta; 
+						console.log(remaining_rotation)
 					wheel.setRotationFromAxisAngle(ZAxis, rotation);
 				}
 				update();

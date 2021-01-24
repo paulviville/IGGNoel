@@ -23,7 +23,7 @@
 			console.log(ratio)
 			const camera = new THREE.OrthographicCamera(-ratio * size,  ratio * size,  size, - size, 0.1, 1000.0);
 			camera.position.set(0, 0, 2);
-			const renderer = new THREE.WebGLRenderer;
+			const renderer = new THREE.WebGLRenderer({antialias: true});
 			renderer.setSize(window.innerWidth, window.innerHeight);
 			renderer.setClearColor('#EEEEEE');
 			document.body.appendChild(renderer.domElement);
@@ -155,7 +155,7 @@
 					raycaster.setFromCamera(mouse, camera);
 					let intersections = raycaster.intersectObjects([play_cube]);
 					if(intersections.length){
-						remaining_rotation += (parseInt(Math.random() * 50) + nb_punish) * Math.PI * 2 / nb_punish;
+						remaining_rotation += (parseInt(Math.random() * 100) + nb_punish) * Math.PI * 2 / nb_punish;
 						console.log(remaining_rotation)
 						speed = 15
 					}

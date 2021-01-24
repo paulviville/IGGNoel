@@ -203,6 +203,7 @@
 			let remaining_rotation_reps = 0;
 			let speed = 0;
 			function onMouseDown(event) {
+				// event.preventDefault();
 				if(event.buttons == 1){
 					mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
 					mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
@@ -221,7 +222,7 @@
 
 			function onDocumentTouchStart(event){
 				console.log("touch")
-				event.preventDefault();
+				// event.preventDefault();
 				event.clientX = event.touches[0].clientX;
 				event.clientY = event.touches[0].clientY;
 				onMouseDown(event);

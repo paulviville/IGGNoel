@@ -93,6 +93,7 @@
 			material = new THREE.MeshBasicMaterial( { color: 0xEEEEEE } );
 			circle = new THREE.Mesh( geometry, material );
 			circle.position.z = 0;
+			play_cube = circle;
 			scene.add( circle );
 
 			geometry = new THREE.CircleBufferGeometry( 3.1,  64);
@@ -217,7 +218,17 @@
 					
 				}
 			}
+
+			function onDocumentTouchStart(event){
+				console.log("touch")
+				event.preventDefault();
+				event.clientX = event.touches[0].clientX;
+				event.clientY = event.touches[0].clientY;
+				onMouseDown(event);
+			}
+
 			window.addEventListener( 'mousedown', onMouseDown, false );
+			window.addEventListener( 'onDocumentTouchStart', onDocumentTouchStart, false );
 
 			let update = function () {
 

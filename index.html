@@ -44,6 +44,8 @@
 			});
 
 			let wheel = new THREE.Group;
+			let wheel2 = new THREE.Group;
+			scene.add(wheel2);
 			scene.add(wheel);
 			
 
@@ -53,12 +55,23 @@
 				"push ups",
 				"jumping\n  jacks",
 				"joker",
-				"cookies",
+				// "cookies",
 				"lunges",
 				"v-ups",
 				"climbers",
-			]
+			];
+
+			let reps = [
+				"4",
+				"8",
+				"12",
+				"16",
+				"20",
+				"24",
+			];
+
 			let nb_punish = punishments.length;
+			let nb_reps = reps.length;
 			let materials = [];
 			const ZAxis = new THREE.Vector3(0, 0, 1);
 			
@@ -72,10 +85,10 @@
 			// geometry = new THREE.EdgesGeometry(geometry);
 			let material = new THREE.MeshBasicMaterial( { color: 0x000000 } );
 			let circle = new THREE.Mesh( geometry, material );
-			circle.position.z -= 0.1;
+			circle.position.z -= 0.01;
 			scene.add( circle );
 
-			geometry = new THREE.CircleBufferGeometry( 0.8,  64);
+			geometry = new THREE.CircleBufferGeometry( 0.85,  64);
 			// geometry = new THREE.EdgesGeometry(geometry);
 			material = new THREE.MeshBasicMaterial( { color: 0xEEEEEE } );
 			circle = new THREE.Mesh( geometry, material );
@@ -107,7 +120,22 @@
 			scene.add( circle );
 
 
-			function create_text(str, mat){
+
+			geometry = new THREE.CircleBufferGeometry( 1.5, 64);
+			// geometry = new THREE.EdgesGeometry(geometry);
+			material = new THREE.MeshBasicMaterial( { color: 0x000000 } );
+			circle = new THREE.Mesh( geometry, material );
+			circle.position.z = -0.015;
+			scene.add( circle );
+
+			geometry = new THREE.CircleBufferGeometry( 1.45,  64);
+			// geometry = new THREE.EdgesGeometry(geometry);
+			material = new THREE.MeshBasicMaterial( { color: 0xdddddd } );
+			circle = new THREE.Mesh( geometry, material );
+			circle.position.z = -0.014;
+			scene.add( circle );
+
+			function create_text(str, mat, height){
 				let text_geom = new THREE.TextBufferGeometry(str, {
 					font: font,
 					size: 0.25,
@@ -120,7 +148,7 @@
 
 				let textMesh = new THREE.Mesh( text_geom, mat);
 				textMesh.position.x = centerOffset;
-				textMesh.position.y = 2.5;
+				textMesh.position.y = height;
 				textMesh.position.z = 0;
 
 				return textMesh;
@@ -130,12 +158,11 @@
 			let font;
 			fontLoader.load('./helvetiker_regular.typeface.json', function (response){
 				font = response;
-
 				let material = new THREE.MeshBasicMaterial( { color: 0x000000 } );
 				for(let i = 0; i < nb_punish; ++i){
 					materials[i] = new THREE.MeshBasicMaterial({color: new THREE.Color(Math.random() / 2, Math.random() / 2, Math.random() / 2)})
 					// let cube = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 1, 1), materials[i]);
-					let mesh = create_text(punishments[i], materials[i]);
+					let mesh = create_text(punishments[i], materials[i], 2.5);
 					let ray = new THREE.Mesh(new THREE.PlaneBufferGeometry( 0.05, 3 ), material) 
 					ray.position.y = 1.5
 					ray.position.z = -0.15
@@ -149,6 +176,22 @@
 					spoke2.setRotationFromAxisAngle(ZAxis, (i + 0.5) * Math.PI *2 / nb_punish);
 				}
 
+				for(let i = 0; i < nb_reps; ++i){
+					materials = new THREE.MeshBasicMaterial({color: new THREE.Color(Math.random() / 2, Math.random() / 2, Math.random() / 2)})
+					// let cube = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 1, 1), materials[i]);
+					let mesh = create_text(reps[i], materials, 1);
+					let ray = new THREE.Mesh(new THREE.PlaneBufferGeometry( 0.05, 1.5 ), material) 
+					ray.position.y = 0.75
+					ray.position.z = -0.013
+					let spoke = new THREE.Group;
+					let spoke2 = new THREE.Group;
+					spoke.add(mesh);
+					wheel2.add(spoke);
+					wheel2.add(spoke2);
+					spoke2.add(ray);
+					spoke.setRotationFromAxisAngle(ZAxis, - i * Math.PI * 2 / nb_reps);
+					spoke2.setRotationFromAxisAngle(ZAxis, - (i + 0.5) * Math.PI *2 / nb_reps);
+				}
 			});
 
 			let raycaster = new THREE.Raycaster();
@@ -156,6 +199,7 @@
 			let mouse = new THREE.Vector2();
 
 			let remaining_rotation = 0;
+			let remaining_rotation_reps = 0;
 			let speed = 0;
 			function onMouseDown(event) {
 				if(event.buttons == 1){
@@ -166,7 +210,8 @@
 					let intersections = raycaster.intersectObjects([play_cube]);
 					if(intersections.length){
 						remaining_rotation += (parseInt(Math.random() * 500) + nb_punish * 3) * Math.PI * 2 / nb_punish;
-						console.log(remaining_rotation)
+						remaining_rotation_reps += (parseInt(Math.random() * 500) + nb_reps * 3) * Math.PI * 2 / nb_reps;
+						// console.log(remaining_rotation)
 						speed = 15
 					}
 					
@@ -183,14 +228,24 @@
 			}
 
 			let rotation = 0;
+			let rotation_reps = 0;
 			
 			let loop = function () {
-				let delta = remaining_rotation *  clock.getDelta();
+				let d = clock.getDelta()
+				let delta = remaining_rotation * d ;
+				let delta_reps = remaining_rotation_reps *  d;
 				if(remaining_rotation > 0){
 					remaining_rotation -= delta;
 					rotation = (rotation > 2 * Math.PI ? rotation - 2 * Math.PI : rotation) + delta; 
-						console.log(remaining_rotation)
+						// console.log(remaining_rotation)
 					wheel.setRotationFromAxisAngle(ZAxis, rotation);
+				}
+
+				if(remaining_rotation_reps > 0){
+					remaining_rotation_reps -= delta_reps;
+					rotation_reps = (rotation_reps > 2 * Math.PI ? rotation_reps - 2 * Math.PI : rotation_reps) + delta_reps; 
+						// console.log(remaining_rotation_reps)
+					wheel2.setRotationFromAxisAngle(ZAxis, -rotation_reps);
 				}
 				update();
 				render();

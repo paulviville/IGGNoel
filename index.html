@@ -61,14 +61,24 @@
 				"climbers",
 			];
 
+			punishments.sort(function(a, b) {
+				return Math.random() - Math.random();
+			});
+
 			let reps = [
 				"4",
+				"6",
 				"8",
+				"10",
 				"12",
+				"14",
 				"16",
+				"18",
 				"20",
-				"24",
 			];
+			reps.sort(function(a, b) {
+				return Math.random() - Math.random();
+			});
 
 			let nb_punish = punishments.length;
 			let nb_reps = reps.length;
@@ -81,14 +91,14 @@
 			play_cube.position.z = 0.1;
 			scene.add(play_cube);
 
-			let geometry = new THREE.CircleBufferGeometry( 0.9,  64);
+			let geometry = new THREE.CircleBufferGeometry( 0.77,  64);
 			// geometry = new THREE.EdgesGeometry(geometry);
 			let material = new THREE.MeshBasicMaterial( { color: 0x000000 } );
 			let circle = new THREE.Mesh( geometry, material );
 			circle.position.z -= 0.01;
 			scene.add( circle );
 
-			geometry = new THREE.CircleBufferGeometry( 0.85,  64);
+			geometry = new THREE.CircleBufferGeometry( 0.72,  64);
 			// geometry = new THREE.EdgesGeometry(geometry);
 			material = new THREE.MeshBasicMaterial( { color: 0xEEEEEE } );
 			circle = new THREE.Mesh( geometry, material );

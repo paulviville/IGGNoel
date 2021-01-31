@@ -185,7 +185,7 @@ async function AmmoPhysics() {
 
 	// animate
 
-	setInterval( step, 100 / frameRate );
+	setInterval( step, 30 / frameRate );
 
 	return {
 		addMesh: addMesh,

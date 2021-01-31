@@ -162,9 +162,9 @@ async function AmmoPhysics() {
 
 		//
 
-		for ( let i = 0, l = meshes.length; i < l; i ++ ) {
+		// for ( let i = 0, l = meshes.length; i < l; i ++ ) {
 
-			const mesh = meshes[ i ];
+			const mesh = meshes[ meshes.length - 1 ];
 
 			if ( mesh.isMesh ) {
 
@@ -179,7 +179,7 @@ async function AmmoPhysics() {
 
 			}
 
-		}
+		// }
 
 	}
 

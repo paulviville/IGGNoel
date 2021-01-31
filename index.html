@@ -212,31 +212,38 @@
 			let remaining_rotation = 0;
 			let remaining_rotation_reps = 0;
 			let speed = 0;
+			let active = false;
 			function onMouseDown(event) {
 				// event.preventDefault();
 				if(event.buttons == 1){
-					mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-					mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
-
-					raycaster.setFromCamera(mouse, camera);
-					let intersections = raycaster.intersectObjects([play_cube]);
-					if(intersections.length){
-						remaining_rotation += (parseInt(Math.random() * 500) + nb_punish * 3) * Math.PI * 2 / nb_punish;
-						remaining_rotation_reps += (parseInt(Math.random() * 500) + nb_reps * 3) * Math.PI * 2 / nb_reps;
-						// console.log(remaining_rotation)
-						speed = 15
-					}
+					action(event)
 					
+				}
+				console.log("test")
+			}
+
+			function action (event) {
+				mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+				mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+
+				raycaster.setFromCamera(mouse, camera);
+				let intersections = raycaster.intersectObjects([play_cube]);
+				if(intersections.length){
+					remaining_rotation += (parseInt(Math.random() * 500) + nb_punish * 3) * Math.PI * 2 / nb_punish;
+					remaining_rotation_reps += (parseInt(Math.random() * 500) + nb_reps * 3) * Math.PI * 2 / nb_reps;
+					// console.log(remaining_rotation)
+					speed = 15
 				}
 			}
 
 			function onDocumentTouchStart(event){
+				window.removeEventListener( 'mousedown', onMouseDown, false );
 				// console.log("touch2")
 				// event.preventDefault();
 				event.clientX = event.touches[0].clientX;
 				event.clientY = event.touches[0].clientY;
-				event.buttons = 1;
-				onMouseDown(event);
+				// event.buttons = 1;
+				action(event);
 			}
 
 			window.addEventListener( 'mousedown', onMouseDown, false );

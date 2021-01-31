@@ -16,8 +16,9 @@
 			import * as THREE from './three.module.js';
 			import {OrbitControls} from './OrbitsControls.js';
 			import { AmmoPhysics } from './AmmoPhysics.js';
+			import Stats from './stats.module.js'
 
-			let camera, scene, renderer;
+			let camera, scene, renderer, stats;
 			let physics, position;
 
 			let box, materials, geometryBox;
@@ -119,6 +120,8 @@
 				renderer.outputEncoding = THREE.sRGBEncoding;
 				document.body.appendChild( renderer.domElement );
 
+				stats = new Stats();
+				document.body.appendChild(stats.dom);
 
 				//
 
@@ -187,10 +190,12 @@
 				event.buttons = 1;
 				onMouseDown(event);
 			}
+			window.addEventListener( 'touchstart', onDocumentTouchStart, false );
+
 			}
 
 			function animate() {
-
+				stats.update();
 				requestAnimationFrame( animate );
 				
 

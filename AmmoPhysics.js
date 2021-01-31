@@ -60,15 +60,10 @@ async function AmmoPhysics() {
 	function addMesh( mesh, mass = 0 ) {
 
 		const shape = getShape( mesh.geometry );
-		console.log("here", shape)
 
 		if ( shape !== null ) {
 
-			if ( mesh.isInstancedMesh ) {
-
-				handleInstancedMesh( mesh, mass, shape );
-
-			} else if ( mesh.isMesh ) {
+			if ( mesh.isMesh ) {
 				console.log("here")
 				handleMesh( mesh, mass, shape );
 
@@ -109,44 +104,6 @@ async function AmmoPhysics() {
 
 	}
 
-	function handleInstancedMesh( mesh, mass, shape ) {
-
-		const array = mesh.instanceMatrix.array;
-
-		const bodies = [];
-
-		for ( let i = 0; i < mesh.count; i ++ ) {
-
-			const index = i * 16;
-
-			const transform = new AmmoLib.btTransform();
-			transform.setFromOpenGLMatrix( array.slice( index, index + 16 ) );
-
-			const motionState = new AmmoLib.btDefaultMotionState( transform );
-
-			const localInertia = new AmmoLib.btVector3( 0, 0, 0 );
-			shape.calculateLocalInertia( mass, localInertia );
-
-			const rbInfo = new AmmoLib.btRigidBodyConstructionInfo( mass, motionState, shape, localInertia );
-
-			const body = new AmmoLib.btRigidBody( rbInfo );
-			world.addRigidBody( body );
-
-			bodies.push( body );
-
-		}
-
-		if ( mass > 0 ) {
-
-			mesh.instanceMatrix.setUsage( 35048 ); // THREE.DynamicDrawUsage = 35048
-			meshes.push( mesh );
-
-			meshMap.set( mesh, bodies );
-
-		}
-
-	}
-
 	//
 
 	function setMeshPosition( mesh, position, index = 0 ) {
@@ -178,7 +135,12 @@ async function AmmoPhysics() {
 			body.setWorldTransform( worldTransform );
 		}
 	}
-	//
+	
+	function removeMesh(mesh) {
+		const body = meshMap.get( mesh );
+		world.removeRigidBody(body);
+
+	};
 
 	let lastTime = 0;
 
@@ -204,31 +166,9 @@ async function AmmoPhysics() {
 
 			const mesh = meshes[ i ];
 
-			if ( mesh.isInstancedMesh ) {
-
-				const array = mesh.instanceMatrix.array;
-				const bodies = meshMap.get( mesh );
-
-				for ( let j = 0; j < bodies.length; j ++ ) {
-
-					const body = bodies[ j ];
-
-					const motionState = body.getMotionState();
-					motionState.getWorldTransform( worldTransform );
-
-					const position = worldTransform.getOrigin();
-					const quaternion = worldTransform.getRotation();
-
-					compose( position, quaternion, array, j * 16 );
-
-				}
-
-				mesh.instanceMatrix.needsUpdate = true;
-
-			} else if ( mesh.isMesh ) {
+			if ( mesh.isMesh ) {
 
 				const body = meshMap.get( mesh );
-
 				const motionState = body.getMotionState();
 				motionState.getWorldTransform( worldTransform );
 
@@ -245,12 +185,13 @@ async function AmmoPhysics() {
 
 	// animate
 
-	setInterval( step, 1000 / frameRate );
+	setInterval( step, 100 / frameRate );
 
 	return {
 		addMesh: addMesh,
 		setMeshPosition: setMeshPosition,
-		throwMesh: throwMesh
+		throwMesh: throwMesh,
+		removeMesh: removeMesh
 		// addCompoundMesh
 	};
 

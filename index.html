@@ -1,288 +1,344 @@
 <!DOCTYPE html>
 <html>
 
-	<head>
-		<title>Roue Nero</title>
-		<style>
-			body { margin : 0; max-width: 100%; max-height: 100%; margin: 0;}
-			canvas {width: 100%; height: 100%; max-width: 100%; max-height: 100%; margin: 0; display: block;}
-		</style>
-	</head>
+    <head>
+        <title>Roue Noel</title>
+        <style>
+            body { margin : 0; max-width: 100%; max-height: 100%; margin: 0;}
+            canvas {width: 100%; height: 100%; max-width: 100%; max-height: 100%; margin: 0; display: block;}
+        </style>
+    </head>
 
-	<body>
-		<script type="module">
-			import * as THREE from './three.module.js';
-			import {OrbitControls} from './OrbitsControls.js';
+    <body>
+        <script type="module">
+            import * as THREE from './three.module.js';
+            import {OrbitControls} from './OrbitsControls.js';
 
-			
+            
 
-			const scene = new THREE.Scene;
+            const scene = new THREE.Scene;
 
-			let ratio =  window.innerWidth / window.innerHeight;
-			const size = 4;
-			console.log(ratio)
-			const camera = new THREE.OrthographicCamera(-ratio * size,  ratio * size,  size, - size, 0.1, 1000.0);
-			camera.position.set(0, 0, 2);
-			const renderer = new THREE.WebGLRenderer({antialias: true});
-			renderer.setSize(window.innerWidth, window.innerHeight);
-			renderer.setClearColor('#EEEEEE');
-			document.body.appendChild(renderer.domElement);
-			const clock = new THREE.Clock;
-			// const orbit_controls= new OrbitControls(camera, renderer.domElement);
-			
-			window.addEventListener('resize', function() {
-				const width = window.innerWidth;
-				const height = window.innerHeight;
-				renderer.setSize(width, height);
-				ratio = window.innerWidth / window.innerHeight;
+            let ratio =  window.innerWidth / window.innerHeight;
+            const size = 4;
+            console.log(ratio)
+            const camera = new THREE.OrthographicCamera(-ratio * size,  ratio * size,  size, - size, 0.1, 1000.0);
+            camera.position.set(0, 0, 2);
+            const renderer = new THREE.WebGLRenderer({antialias: true});
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setClearColor('#EEEEEE');
+            document.body.appendChild(renderer.domElement);
+            const clock = new THREE.Clock;
+            // const orbit_controls= new OrbitControls(camera, renderer.domElement);
+            
+            window.addEventListener('resize', function() {
+                const width = window.innerWidth;
+                const height = window.innerHeight;
+                renderer.setSize(width, height);
+                ratio = window.innerWidth / window.innerHeight;
 
-				camera.left = - size * ratio;
-				camera.right = size * ratio;
-				camera.top = size;
-				camera.bottom = - size;
-				camera.updateProjectionMatrix();
-			});
+                camera.left = - size * ratio;
+                camera.right = size * ratio;
+                camera.top = size;
+                camera.bottom = - size;
+                camera.updateProjectionMatrix();
+            });
 
-			let wheel = new THREE.Group;
-			let wheel2 = new THREE.Group;
-			scene.add(wheel2);
-			scene.add(wheel);
-			
-
-			let punishments = [
-				"burpees",
-				"squats",
-				"push ups",
-				"jumping\n  jacks",
-				"joker",
-				// "cookies",
-				"lunges",
-				"v-ups",
-				"climbers",
-			];
-
-			punishments.sort(function(a, b) {
-				return Math.random() - Math.random();
-			});
-
-			let reps = [
-				"4",
-				"6",
-				"8",
-				"10",
-				"12",
-				"14",
-				"16",
-				"18",
-				"20",
-			];
-			reps.sort(function(a, b) {
-				return Math.random() - Math.random();
-			});
-
-			let nb_punish = punishments.length;
-			let nb_reps = reps.length;
-			let materials = [];
-			const ZAxis = new THREE.Vector3(0, 0, 1);
-			
-
-			const texture = THREE.ImageUtils.loadTexture("nero.PNG");
-			let play_cube = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 1, 1), new THREE.MeshBasicMaterial({color: 0xEEEEEE, map: texture}));
-			play_cube.position.z = 0.1;
-			scene.add(play_cube);
-
-			let geometry = new THREE.CircleBufferGeometry( 0.77,  64);
-			// geometry = new THREE.EdgesGeometry(geometry);
-			let material = new THREE.MeshBasicMaterial( { color: 0x000000 } );
-			let circle = new THREE.Mesh( geometry, material );
-			circle.position.z -= 0.01;
-			scene.add( circle );
-
-			geometry = new THREE.CircleBufferGeometry( 0.72,  64);
-			// geometry = new THREE.EdgesGeometry(geometry);
-			material = new THREE.MeshBasicMaterial( { color: 0xEEEEEE } );
-			circle = new THREE.Mesh( geometry, material );
-			circle.position.z = 0;
-			play_cube = circle;
-			scene.add( circle );
-
-			geometry = new THREE.CircleBufferGeometry( 3.1,  64);
-			// geometry = new THREE.EdgesGeometry(geometry);
-			material = new THREE.MeshBasicMaterial( { color: 0x000000 } );
-			circle = new THREE.Mesh( geometry, material );
-			circle.position.z -= 0.2;
-			scene.add( circle );
-
-			geometry = new THREE.CircleBufferGeometry( 3,  64);
-			// geometry = new THREE.EdgesGeometry(geometry);
-			material = new THREE.MeshBasicMaterial( { color: 0xEEEEEE } );
-			circle = new THREE.Mesh( geometry, material );
-			circle.position.z -= 0.15;
-			scene.add( circle );
-
-
-			geometry = new THREE.CircleBufferGeometry( 0.25,  3);
-			// geometry = new THREE.EdgesGeometry(geometry);
-			material = new THREE.MeshBasicMaterial( { color: 0xFF0000 } );
-			circle = new THREE.Mesh( geometry, material );
-			circle.position.z = 0.15;
-			circle.position.y = 3;
-			circle.rotation.z = Math.PI /6 ;
-			scene.add( circle );
+            let wheel = new THREE.Group;
+            let wheel2 = new THREE.Group;
+            // scene.add(wheel2);
+            scene.add(wheel);
+            
 
 
 
-			geometry = new THREE.CircleBufferGeometry( 1.5, 64);
-			// geometry = new THREE.EdgesGeometry(geometry);
-			material = new THREE.MeshBasicMaterial( { color: 0x000000 } );
-			circle = new THREE.Mesh( geometry, material );
-			circle.position.z = -0.015;
-			scene.add( circle );
 
-			geometry = new THREE.CircleBufferGeometry( 1.45,  64);
-			// geometry = new THREE.EdgesGeometry(geometry);
-			material = new THREE.MeshBasicMaterial( { color: 0xdddddd } );
-			circle = new THREE.Mesh( geometry, material );
-			circle.position.z = -0.014;
-			scene.add( circle );
 
-			function create_text(str, mat, height){
-				let text_geom = new THREE.TextBufferGeometry(str, {
-					font: font,
-					size: 0.25,
-					height: 0.1
-				});
+            function RNG(seed) {
+  // LCG using GCC's constants
+  this.m = 0x80000000; // 2**31;
+  this.a = 1103515245;
+  this.c = 12345;
 
-				text_geom.computeBoundingBox();
-				text_geom.computeVertexNormals();
-				const centerOffset = - 0.5 * ( text_geom.boundingBox.max.x - text_geom.boundingBox.min.x );
+  this.state = seed ? seed : Math.floor(Math.random() * (this.m - 1));
+}
+RNG.prototype.nextInt = function() {
+  this.state = (this.a * this.state + this.c) % this.m;
+  return this.state;
+}
+RNG.prototype.nextFloat = function() {
+  // returns in range [0,1]
+  return this.nextInt() / (this.m - 1);
+}
+RNG.prototype.nextRange = function(start, end) {
+  // returns in range [start, end): including start, excluding end
+  // can't modulu nextInt because of weak randomness in lower bits
+  var rangeSize = end - start;
+  var randomUnder1 = this.nextInt() / this.m;
+  return start + Math.floor(randomUnder1 * rangeSize);
+}
+RNG.prototype.choice = function(array) {
+  return array[this.nextRange(0, array.length)];
+}
 
-				let textMesh = new THREE.Mesh( text_geom, mat);
-				textMesh.position.x = centerOffset;
-				textMesh.position.y = height;
-				textMesh.position.z = 0;
+var rng = new RNG(210);
+// for (var i = 0; i < 10; i++)
+//   console.log(rng.nextInt());
 
-				return textMesh;
-			}
+//   for (var i = 0; i < 10; i++)
+//   console.log(rng.nextFloat());
 
-			const fontLoader = new THREE.FontLoader();
-			let font;
-			fontLoader.load('./helvetiker_regular.typeface.json', function (response){
-				font = response;
-				let material = new THREE.MeshBasicMaterial( { color: 0x000000 } );
-				for(let i = 0; i < nb_punish; ++i){
-					materials[i] = new THREE.MeshBasicMaterial({color: new THREE.Color(Math.random() / 2, Math.random() / 2, Math.random() / 2)})
-					// let cube = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 1, 1), materials[i]);
-					let mesh = create_text(punishments[i], materials[i], 2.5);
-					let ray = new THREE.Mesh(new THREE.PlaneBufferGeometry( 0.05, 3 ), material) 
-					ray.position.y = 1.5
-					ray.position.z = -0.15
-					let spoke = new THREE.Group;
-					let spoke2 = new THREE.Group;
-					spoke.add(mesh);
-					wheel.add(spoke);
-					wheel.add(spoke2);
-					spoke2.add(ray);
-					spoke.setRotationFromAxisAngle(ZAxis, i * Math.PI * 2 / nb_punish);
-					spoke2.setRotationFromAxisAngle(ZAxis, (i + 0.5) * Math.PI *2 / nb_punish);
-				}
+// var digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+// for (var i = 0; i < 10; i++)
+//   console.log(rng.choice(digits));
 
-				for(let i = 0; i < nb_reps; ++i){
-					materials = new THREE.MeshBasicMaterial({color: new THREE.Color(Math.random() / 2, Math.random() / 2, Math.random() / 2)})
-					// let cube = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 1, 1), materials[i]);
-					let mesh = create_text(reps[i], materials, 1);
-					let ray = new THREE.Mesh(new THREE.PlaneBufferGeometry( 0.05, 1.5 ), material) 
-					ray.position.y = 0.75
-					ray.position.z = -0.013
-					let spoke = new THREE.Group;
-					let spoke2 = new THREE.Group;
-					spoke.add(mesh);
-					wheel2.add(spoke);
-					wheel2.add(spoke2);
-					spoke2.add(ray);
-					spoke.setRotationFromAxisAngle(ZAxis, - i * Math.PI * 2 / nb_reps);
-					spoke2.setRotationFromAxisAngle(ZAxis, - (i + 0.5) * Math.PI *2 / nb_reps);
-				}
-			});
+            let names = [
+                "Charles",
+                "Arnaud",
+                "Lucie",
+                "Louis",
+                "Max",
+                "Magalie",
+                "Paul",
+                "Isabelle",
+                "Philipe",
+                "Christine",
+                "Brigitte",
+            ]
 
-			let raycaster = new THREE.Raycaster();
-			let raycaster_drag = new THREE.Raycaster();
-			let mouse = new THREE.Vector2();
+            let namesCopy = names.map(n => n)
+            console.log(names, namesCopy)
 
-			let remaining_rotation = 0;
-			let remaining_rotation_reps = 0;
-			let speed = 0;
-			let active = false;
-			function onMouseDown(event) {
-				// event.preventDefault();
-				if(event.buttons == 1){
-					action(event)
-					
-				}
-				console.log("test")
-			}
+            let list = {}
+            let nb = 0;
+            let namesId = names.map(n => {
+                let i = 0;
+                for(let j = 0; j < n.length; j++)
+                    i = i * 100 + n.charCodeAt(j);
+                list[i] = {n};
+                return i;
+            })
 
-			function action (event) {
-				mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-				mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+            console.log(list);
+            let namesId2 = namesId.map(x => x);
+            namesId2.sort(function(a, b) {
+                return rng.nextFloat() - rng.nextFloat();
+            });
+            namesId2.sort(function(a, b) {
+                return rng.nextFloat() - rng.nextFloat();
+            });
+            console.log(namesId, namesId2)
 
-				raycaster.setFromCamera(mouse, camera);
-				let intersections = raycaster.intersectObjects([play_cube]);
-				if(intersections.length){
-					remaining_rotation += (parseInt(Math.random() * 500) + nb_punish * 3) * Math.PI * 2 / nb_punish;
-					remaining_rotation_reps += (parseInt(Math.random() * 500) + nb_reps * 3) * Math.PI * 2 / nb_reps;
-					// console.log(remaining_rotation)
-					speed = 15
-				}
-			}
+            for(let i = 0; i < namesId.length; ++i)
+                console.log(namesId == namesId2)
 
-			function onDocumentTouchStart(event){
-				window.removeEventListener( 'mousedown', onMouseDown, false );
-				// console.log("touch2")
-				// event.preventDefault();
-				event.clientX = event.touches[0].clientX;
-				event.clientY = event.touches[0].clientY;
-				// event.buttons = 1;
-				action(event);
-			}
+            for(let i = 0; i < namesId.length; ++i){
+                list[namesId[i]].t = namesId2[i];
+                list[namesId[i]].i = i;
+                
+            }
 
-			window.addEventListener( 'mousedown', onMouseDown, false );
-			window.addEventListener( 'touchstart', onDocumentTouchStart, false );
 
-			let update = function () {
+            let user = parseInt(window.location.search.split("?")[1]);
+            console.log(user)
 
-			}
+            let target = list[user].t
+            let targetI = list[target].i
+            console.log(targetI, target, list[target].n)
 
-			let render = function () {
-				renderer.render(scene, camera);
-			}
 
-			let rotation = 0;
-			let rotation_reps = 0;
-			
-			let loop = function () {
-				let d = clock.getDelta()
-				let delta = remaining_rotation * d ;
-				let delta_reps = remaining_rotation_reps *  d;
-				if(remaining_rotation > 0){
-					remaining_rotation -= delta;
-					rotation = (rotation > 2 * Math.PI ? rotation - 2 * Math.PI : rotation) + delta; 
-						// console.log(remaining_rotation)
-					wheel.setRotationFromAxisAngle(ZAxis, rotation);
-				}
 
-				if(remaining_rotation_reps > 0){
-					remaining_rotation_reps -= delta_reps;
-					rotation_reps = (rotation_reps > 2 * Math.PI ? rotation_reps - 2 * Math.PI : rotation_reps) + delta_reps; 
-						// console.log(remaining_rotation_reps)
-					wheel2.setRotationFromAxisAngle(ZAxis, -rotation_reps);
-				}
-				update();
-				render();
-				requestAnimationFrame(loop);
-			}
-			loop();
-		</script>
-	</body>
+
+            let nbParticipants = names.length;
+            let materials = [];
+            const ZAxis = new THREE.Vector3(0, 0, 1);
+            
+
+            const texture = THREE.ImageUtils.loadTexture("gift3.png");
+            let play_cube = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 1, 1), new THREE.MeshBasicMaterial({color: 0xEEEEEE, map: texture}));
+            play_cube.position.z = 0.1;
+            scene.add(play_cube);
+
+            let geometry = new THREE.CircleBufferGeometry( 0.77,  64);
+            // geometry = new THREE.EdgesGeometry(geometry);
+            let material = new THREE.MeshBasicMaterial( { color: 0x000000 } );
+            let circle = new THREE.Mesh( geometry, material );
+            circle.position.z -= 0.01;
+            scene.add( circle );
+
+            geometry = new THREE.CircleBufferGeometry( 0.95,  64);
+            // geometry = new THREE.EdgesGeometry(geometry);
+            material = new THREE.MeshBasicMaterial( { color: 0xEEEEEE } );
+            circle = new THREE.Mesh( geometry, material );
+            circle.position.z = 0;
+            play_cube = circle;
+            scene.add( circle );
+
+            geometry = new THREE.CircleBufferGeometry( 3.1,  64);
+            // geometry = new THREE.EdgesGeometry(geometry);
+            material = new THREE.MeshBasicMaterial( { color: 0x000000 } );
+            circle = new THREE.Mesh( geometry, material );
+            circle.position.z -= 0.2;
+            scene.add( circle );
+
+            geometry = new THREE.CircleBufferGeometry( 3,  64);
+            // geometry = new THREE.EdgesGeometry(geometry);
+            material = new THREE.MeshBasicMaterial( { color: 0xEEEEEE } );
+            circle = new THREE.Mesh( geometry, material );
+            circle.position.z -= 0.15;
+            scene.add( circle );
+
+
+            geometry = new THREE.CircleBufferGeometry( 0.25,  3);
+            // geometry = new THREE.EdgesGeometry(geometry);
+            material = new THREE.MeshBasicMaterial( { color: 0xFF0000 } );
+            circle = new THREE.Mesh( geometry, material );
+            circle.position.z = 0.15;
+            circle.position.y = 3;
+            circle.rotation.z = Math.PI /6 ;
+            scene.add( circle );
+
+
+
+            geometry = new THREE.CircleBufferGeometry( 0, 64);
+            // geometry = new THREE.EdgesGeometry(geometry);
+            material = new THREE.MeshBasicMaterial( { color: 0x000000 } );
+            circle = new THREE.Mesh( geometry, material );
+            circle.position.z = -0.015;
+            scene.add( circle );
+
+            geometry = new THREE.CircleBufferGeometry( 0,  64);
+            // geometry = new THREE.EdgesGeometry(geometry);
+            material = new THREE.MeshBasicMaterial( { color: 0x00dddd } );
+            circle = new THREE.Mesh( geometry, material );
+            circle.position.z = -0.014;
+            // scene.add( circle );
+
+            function create_text(str, mat, height){
+                let text_geom = new THREE.TextBufferGeometry(str, {
+                    font: font,
+                    size: 0.25,
+                    height: 0.1
+                });
+
+                text_geom.computeBoundingBox();
+                text_geom.computeVertexNormals();
+                const centerOffset = - 0.5 * ( text_geom.boundingBox.max.x - text_geom.boundingBox.min.x );
+
+                let textMesh = new THREE.Mesh( text_geom, mat);
+                textMesh.position.x = centerOffset;
+                textMesh.position.y = height;
+                textMesh.position.z = 0;
+
+                return textMesh;
+            }
+
+            const fontLoader = new THREE.FontLoader();
+            let font;
+            fontLoader.load('./helvetiker_regular.typeface.json', function (response){
+                font = response;
+                let material = new THREE.MeshBasicMaterial( { color: 0x000000 } );
+                for(let i = 0; i < names.length; ++i){
+                    materials[i] = new THREE.MeshBasicMaterial({color: new THREE.Color(Math.random() / 2, Math.random() / 2, Math.random() / 2)})
+                    // let cube = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 1, 1), materials[i]);
+                    let mesh = create_text(names[i], materials[i], 2.5);
+                    // mesh.setRotationFromAxisAngle(ZAxis,)
+                    let ray = new THREE.Mesh(new THREE.PlaneBufferGeometry( 0.05, 3 ), material) 
+                    ray.position.y = 1.5
+                    ray.position.z = -0.15
+                    let spoke = new THREE.Group;
+                    let spoke2 = new THREE.Group;
+                    spoke.add(mesh);
+                    wheel.add(spoke);
+                    wheel.add(spoke2);
+                    spoke2.add(ray);
+                    spoke.setRotationFromAxisAngle(ZAxis, -i * Math.PI * 2 / nbParticipants);
+                    spoke2.setRotationFromAxisAngle(ZAxis, (i + 0.5) * Math.PI *2 / nbParticipants);
+                }
+
+
+            });
+
+            let raycaster = new THREE.Raycaster();
+            let raycaster_drag = new THREE.Raycaster();
+            let mouse = new THREE.Vector2();
+
+            let remaining_rotation = 0;
+            let remaining_rotation_reps = 0;
+            let speed = 0;
+            let active = false;
+            function onMouseDown(event) {
+                // event.preventDefault();
+                if(event.buttons == 1){
+                    action(event)
+                    
+                }
+                console.log("test")
+            }
+
+            function action (event) {
+                mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+                mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+
+                raycaster.setFromCamera(mouse, camera);
+                let intersections = raycaster.intersectObjects([play_cube]);
+                if(intersections.length){
+                    let offset = (targetI) * 2 * Math.PI / nbParticipants + parseInt(3 + Math.random() * 15) * 2 * Math.PI;
+
+                    remaining_rotation += offset;
+                    // remaining_rotation += (parseInt(Math.random() * 500) + nbParticipants * 3) * Math.PI * 2 / nbParticipants;
+                    speed = 15
+
+
+                    window.removeEventListener( 'mousedown', onMouseDown, false );
+                    window.removeEventListener( 'touchstart', onMouseDown, false );
+
+                }
+            }
+
+            function onDocumentTouchStart(event){
+                window.removeEventListener( 'mousedown', onMouseDown, false );
+                event.clientX = event.touches[0].clientX;
+                event.clientY = event.touches[0].clientY;
+                action(event);
+            }
+
+            window.addEventListener( 'mousedown', onMouseDown, false );
+            window.addEventListener( 'touchstart', onDocumentTouchStart, false );
+
+            let update = function () {
+
+            }
+
+            let render = function () {
+                renderer.render(scene, camera);
+            }
+
+            let rotation = 0;
+            let rotation_reps = 0;
+            
+            let loop = function () {
+                let d = clock.getDelta()
+                let delta = remaining_rotation * d ;
+                let delta_reps = remaining_rotation_reps *  d;
+                if(remaining_rotation > 0){
+                    remaining_rotation -= delta;
+                    rotation = (rotation > 2 * Math.PI ? rotation - 2 * Math.PI : rotation) + delta; 
+                        // console.log(remaining_rotation)
+                    wheel.setRotationFromAxisAngle(ZAxis, rotation);
+                }
+
+                if(remaining_rotation_reps > 0){
+                    remaining_rotation_reps -= delta_reps;
+                    rotation_reps = (rotation_reps > 2 * Math.PI ? rotation_reps - 2 * Math.PI : rotation_reps) + delta_reps; 
+                        // console.log(remaining_rotation_reps)
+                    wheel2.setRotationFromAxisAngle(ZAxis, -rotation_reps);
+                }
+                update();
+                render();
+                requestAnimationFrame(loop);
+            }
+            loop();
+        </script>
+    </body>
 
 </html>

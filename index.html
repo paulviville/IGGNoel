@@ -12,7 +12,7 @@
     <body>
         <script type="module">
             import * as THREE from './three.module.js';
-            import {OrbitControls} from './OrbitsControls.js';
+            // import {OrbitControls} from './OrbitsControls.js';
 
             
 
@@ -23,7 +23,7 @@
             console.log(ratio)
             const camera = new THREE.OrthographicCamera(-ratio * size,  ratio * size,  size, - size, 0.1, 1000.0);
             camera.position.set(0, 0, 2);
-            const renderer = new THREE.WebGLRenderer({antialias: true});
+            const renderer = new THREE.WebGLRenderer({antialias: false});
             renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.setClearColor('#EEEEEE');
             document.body.appendChild(renderer.domElement);
@@ -53,7 +53,7 @@
 
 
 
-            function RNG(seed) {
+function RNG(seed) {
   // LCG using GCC's constants
   this.m = 0x80000000; // 2**31;
   this.a = 1103515245;
@@ -81,57 +81,26 @@ RNG.prototype.choice = function(array) {
 }
 
 var rng = new RNG(21121258910);
-// var rng = new RNG(211212589101);
-// for (var i = 0; i < 10; i++)
-//   console.log(rng.nextInt());
 
-//   for (var i = 0; i < 10; i++)
-//   console.log(rng.nextFloat());
+let members  = [
+	{n: "Charles", c: 0},
+	{n: "Arnaud", c: 0},
+	{n: "Isabelle", c: 0},
+	{n: "Philipe", c: 0},
+	{n: "Lucie", c: 1},
+	{n: "Max", c: 1},
+	{n: "Magalie", c: 1},
+	{n: "Erwan", c: 1},
+	{n: "Christine", c: 1},
+	{n: "Yaseniia", c: 2},
+	{n: "Paul", c: 2},
+	{n: "Louis", c: 2},
+	{n: "Brigitte", c: 2},
+	{n: "Diana", c: 2},
+	{n: "Grand-P", c: 3},
+	{n: "Grand-M", c: 3},
+]
 
-// var digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-// for (var i = 0; i < 10; i++)
-//   console.log(rng.choice(digits));
-
-            // let names = [
-            //     "Charles",
-            //     "Arnaud",
-            //     "Isabelle",
-            //     "Philipe",
-            //     "Lucie",
-            //     "Max",
-            //     "Magalie",
-			// 	"Erwan",
-            //     "Christine",
-			// 	"Yaseniia",
-            //     "Paul",
-            //     "Louis",
-            //     "Brigitte",
-			// 	"Diana",
-			// 	"Grand-P",
-			// 	"Grand-M",
-            // ]
-
-
-
-			let members  = [
-                {n: "Charles", c: 0},
-                {n: "Arnaud", c: 0},
-                {n: "Isabelle", c: 0},
-                {n: "Philipe", c: 0},
-                {n: "Lucie", c: 1},
-                {n: "Max", c: 1},
-                {n: "Magalie", c: 1},
-                {n: "Erwan", c: 1},
-                {n: "Christine", c: 1},
-                {n: "Yaseniia", c: 2},
-                {n: "Paul", c: 2},
-                {n: "Louis", c: 2},
-                {n: "Brigitte", c: 2},
-                {n: "Diana", c: 2},
-                {n: "Grand-P", c: 3},
-                {n: "Grand-M", c: 3},
-            ]
-			
 
 			members.sort(function(a, b) {
                 return rng.nextFloat() - rng.nextFloat();
@@ -167,7 +136,7 @@ var rng = new RNG(21121258910);
 			for(let i = 0; i < members.length; ++i) {
 				idsIndex[toId(members[i].n)] = i;
 			}
-			console.log(idsIndex)
+			// console.log(idsIndex)
 
 			let picks = []
 			// for(let i = 0; i < 2; ++i){
@@ -183,32 +152,43 @@ var rng = new RNG(21121258910);
 					break;
 				}
 			}
-			console.log(picks)
+			// console.log(picks)
 
 			picks = picks.map(p => {
 				return {a: toId(p.a.n), b: toId(p.b.n)}
 			})
-			console.log(picks)
+			// console.log(picks)
 
 			let idsTargets = []
 			for(let i = 0; i < picks.length; ++i) {
 				idsTargets[picks[i].a] = idsIndex[picks[i].b];
 			}
 
-			console.log(idsTargets)
+			// console.log(idsTargets)
+			
+			let check = []
+			
 
+			
+			// for(let i = 0; i < members.length; ++i) {
+			// 	console.log(members[i].n, toId(members[i].n))
+			// }
 
 
             let user = parseInt(window.location.search.split("?")[1]);
-            console.log(user)
+            // console.log(user)
 
             // let target = list[user].t
             // let targetI = list[target].i
-			let targetI = idsTargets[user]
+			let targetI = idsTargets[user];
+			// targetI ??= parseInt(Math.random() * 30);
             // console.log(targetI, target, list[target].n)
-			console.log(targetI)
+			// console.log(targetI)
 
 			// console.log(members[targetI], names[targetI])
+
+
+
 
 
             let nbParticipants = members.length;
@@ -288,19 +268,12 @@ var rng = new RNG(21121258910);
                 const centerOffset = - 0.5 * ( text_geom.boundingBox.max.x - text_geom.boundingBox.min.x );
 
                 let textMesh = new THREE.Mesh( text_geom, mat);
-				// textMesh.setRotationFromAxisAngle(ZAxis, Math.PI / 2)
                 textMesh.position.x = centerOffset * -0.25;
                 textMesh.position.y = height;
                 textMesh.position.z = 0;
-				let group = new THREE.Group();
-				group.add(textMesh)
 				textMesh.setRotationFromAxisAngle(ZAxis, Math.PI / 2)
 
-				// group.position.x = centerOffset;
-				// group.position.y = height;
-				// group.position.z = 0;
-
-                return group;
+                return textMesh;
             }
 
             const fontLoader = new THREE.FontLoader();
@@ -366,7 +339,6 @@ var rng = new RNG(21121258910);
             }
 
             function onDocumentTouchStart(event){
-                window.removeEventListener( 'mousedown', onMouseDown, false );
                 event.clientX = event.touches[0].clientX;
                 event.clientY = event.touches[0].clientY;
                 action(event);

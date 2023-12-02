@@ -80,7 +80,8 @@ RNG.prototype.choice = function(array) {
   return array[this.nextRange(0, array.length)];
 }
 
-var rng = new RNG(210);
+var rng = new RNG(21121258910);
+// var rng = new RNG(211212589101);
 // for (var i = 0; i < 10; i++)
 //   console.log(rng.nextInt());
 
@@ -91,68 +92,126 @@ var rng = new RNG(210);
 // for (var i = 0; i < 10; i++)
 //   console.log(rng.choice(digits));
 
-            let names = [
-                "Charles",
-                "Arnaud",
-                "Lucie",
-                "Louis",
-                "Max",
-                "Magalie",
-                "Paul",
-                "Isabelle",
-                "Philipe",
-                "Christine",
-                "Brigitte",
-				"Diana",
-				"Yaseniia",
-				"Grand-P",
-				"Grand-M",
+            // let names = [
+            //     "Charles",
+            //     "Arnaud",
+            //     "Isabelle",
+            //     "Philipe",
+            //     "Lucie",
+            //     "Max",
+            //     "Magalie",
+			// 	"Erwan",
+            //     "Christine",
+			// 	"Yaseniia",
+            //     "Paul",
+            //     "Louis",
+            //     "Brigitte",
+			// 	"Diana",
+			// 	"Grand-P",
+			// 	"Grand-M",
+            // ]
+
+
+
+			let members  = [
+                {n: "Charles", c: 0},
+                {n: "Arnaud", c: 0},
+                {n: "Isabelle", c: 0},
+                {n: "Philipe", c: 0},
+                {n: "Lucie", c: 1},
+                {n: "Max", c: 1},
+                {n: "Magalie", c: 1},
+                {n: "Erwan", c: 1},
+                {n: "Christine", c: 1},
+                {n: "Yaseniia", c: 2},
+                {n: "Paul", c: 2},
+                {n: "Louis", c: 2},
+                {n: "Brigitte", c: 2},
+                {n: "Diana", c: 2},
+                {n: "Grand-P", c: 3},
+                {n: "Grand-M", c: 3},
             ]
+			
 
-            let namesCopy = names.map(n => n)
-            console.log(names, namesCopy)
+			members.sort(function(a, b) {
+                return rng.nextFloat() - rng.nextFloat();
+            });
 
-            let list = {}
-            let nb = 0;
-            let namesId = names.map(n => {
-                let i = 0;
+
+			let pairs = []
+			for(let i = 0; i < members.length; ++i) {
+				pairs[i] = []
+				for(let j = 0; j < members.length; ++j) {
+					pairs[i][j] = {a: members[i], b: members[j]}
+					if(i == j)
+						pairs[i][j] = null;
+					if(members[i].c == members[j].c)
+						pairs[i][j] = null;
+				}	
+			}
+
+			pairs.sort(function(a, b) {
+                return rng.nextFloat() - rng.nextFloat();
+            });
+
+
+			
+			function toId(n) {
+				let i = 0;
                 for(let j = 0; j < n.length; j++)
                     i = i * 100 + n.charCodeAt(j);
-                list[i] = {n};
-                return i;
-            })
+				return i;
+			}
 
-            console.log(list);
-            let namesId2 = namesId.map(x => x);
-            namesId2.sort(function(a, b) {
-                return rng.nextFloat() - rng.nextFloat();
-            });
-            namesId2.sort(function(a, b) {
-                return rng.nextFloat() - rng.nextFloat();
-            });
-            console.log(namesId, namesId2)
+			let idsIndex = []
+			for(let i = 0; i < members.length; ++i) {
+				idsIndex[toId(members[i].n)] = i;
+			}
+			console.log(idsIndex)
 
-            for(let i = 0; i < namesId.length; ++i)
-                console.log(namesId == namesId2)
+			let picks = []
+			// for(let i = 0; i < 2; ++i){
+			for(let i = 0; i < members.length; ++i){
+				// console.log(picks)
+				for(let j = 0; j < members.length; ++j){
+					if(pairs[i][j] == null)
+						continue;
+					picks.push(pairs[i][j]);
+					for(let k = 0; k < members.length; ++k) {
+						pairs[k][j] = null;
+					}
+					break;
+				}
+			}
+			console.log(picks)
 
-            for(let i = 0; i < namesId.length; ++i){
-                list[namesId[i]].t = namesId2[i];
-                list[namesId[i]].i = i;
-                
-            }
+			picks = picks.map(p => {
+				return {a: toId(p.a.n), b: toId(p.b.n)}
+			})
+			console.log(picks)
+
+			let idsTargets = []
+			for(let i = 0; i < picks.length; ++i) {
+				idsTargets[picks[i].a] = idsIndex[picks[i].b];
+			}
+
+			console.log(idsTargets)
+
 
 
             let user = parseInt(window.location.search.split("?")[1]);
             console.log(user)
 
-            let target = list[user].t
-            let targetI = list[target].i
-            console.log(targetI, target, list[target].n)
+            // let target = list[user].t
+            // let targetI = list[target].i
+			let targetI = idsTargets[user]
+            // console.log(targetI, target, list[target].n)
+			console.log(targetI)
+
+			// console.log(members[targetI], names[targetI])
 
 
-
-
-            let nbParticipants = names.length;
+            let nbParticipants = members.length;
             let materials = [];
             const ZAxis = new THREE.Vector3(0, 0, 1);
             
@@ -249,10 +308,10 @@ var rng = new RNG(210);
             fontLoader.load('./helvetiker_regular.typeface.json', function (response){
                 font = response;
                 let material = new THREE.MeshBasicMaterial( { color: 0x000000 } );
-                for(let i = 0; i < names.length; ++i){
+                for(let i = 0; i < members.length; ++i){
                     materials[i] = new THREE.MeshBasicMaterial({color: new THREE.Color(Math.random() / 2, Math.random() / 2, Math.random() / 2)})
                     // let cube = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 1, 1), materials[i]);
-                    let mesh = create_text(names[i], materials[i], 1.35);
+                    let mesh = create_text(members[i].n, materials[i], 1.35);
                     let ray = new THREE.Mesh(new THREE.PlaneBufferGeometry( 0.05, 3 ), material) 
                     ray.position.y = 1.5
                     ray.position.z = -0.15

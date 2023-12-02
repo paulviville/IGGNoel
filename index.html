@@ -103,6 +103,10 @@ var rng = new RNG(210);
                 "Philipe",
                 "Christine",
                 "Brigitte",
+				"Diana",
+				"Yaseniia",
+				"Grand-P",
+				"Grand-M",
             ]
 
             let namesCopy = names.map(n => n)
@@ -154,7 +158,7 @@ var rng = new RNG(210);
             
 
             const texture = THREE.ImageUtils.loadTexture("gift3.png");
-            let play_cube = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 1, 1), new THREE.MeshBasicMaterial({color: 0xEEEEEE, map: texture}));
+            let play_cube = new THREE.Mesh(new THREE.BoxBufferGeometry(1.25, 1.25, 1), new THREE.MeshBasicMaterial({color: 0xEEEEEE, map: texture}));
             play_cube.position.z = 0.1;
             scene.add(play_cube);
 
@@ -225,11 +229,19 @@ var rng = new RNG(210);
                 const centerOffset = - 0.5 * ( text_geom.boundingBox.max.x - text_geom.boundingBox.min.x );
 
                 let textMesh = new THREE.Mesh( text_geom, mat);
-                textMesh.position.x = centerOffset;
+				// textMesh.setRotationFromAxisAngle(ZAxis, Math.PI / 2)
+                textMesh.position.x = centerOffset * -0.25;
                 textMesh.position.y = height;
                 textMesh.position.z = 0;
+				let group = new THREE.Group();
+				group.add(textMesh)
+				textMesh.setRotationFromAxisAngle(ZAxis, Math.PI / 2)
 
-                return textMesh;
+				// group.position.x = centerOffset;
+				// group.position.y = height;
+				// group.position.z = 0;
+
+                return group;
             }
 
             const fontLoader = new THREE.FontLoader();
@@ -240,8 +252,7 @@ var rng = new RNG(210);
                 for(let i = 0; i < names.length; ++i){
                     materials[i] = new THREE.MeshBasicMaterial({color: new THREE.Color(Math.random() / 2, Math.random() / 2, Math.random() / 2)})
                     // let cube = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 1, 1), materials[i]);
-                    let mesh = create_text(names[i], materials[i], 2.5);
-                    // mesh.setRotationFromAxisAngle(ZAxis,)
+                    let mesh = create_text(names[i], materials[i], 1.35);
                     let ray = new THREE.Mesh(new THREE.PlaneBufferGeometry( 0.05, 3 ), material) 
                     ray.position.y = 1.5
                     ray.position.z = -0.15
@@ -290,7 +301,7 @@ var rng = new RNG(210);
 
 
                     window.removeEventListener( 'mousedown', onMouseDown, false );
-                    window.removeEventListener( 'touchstart', onMouseDown, false );
+                    window.removeEventListener( 'touchstart', onDocumentTouchStart, false );
 
                 }
             }

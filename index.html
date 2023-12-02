@@ -80,7 +80,7 @@ RNG.prototype.choice = function(array) {
   return array[this.nextRange(0, array.length)];
 }
 
-var rng = new RNG(21121258910);
+var rng = new RNG(2112125891012);
 
 let members  = [
 	{n: "Charles", c: 0},
@@ -153,6 +153,9 @@ let members  = [
 				}
 			}
 			// console.log(picks)
+			// for(let i = 0; i < picks.length; ++i){
+			// 	console.log(picks[i].a.n, picks[i].b.n)
+			// }
 
 			picks = picks.map(p => {
 				return {a: toId(p.a.n), b: toId(p.b.n)}
@@ -310,12 +313,9 @@ let members  = [
             let speed = 0;
             let active = false;
             function onMouseDown(event) {
-                // event.preventDefault();
                 if(event.buttons == 1){
                     action(event)
-                    
                 }
-                console.log("test")
             }
 
             function action (event) {

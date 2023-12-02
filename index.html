@@ -157,21 +157,65 @@ let members  = [
 			// 	console.log(picks[i].a.n, picks[i].b.n)
 			// }
 
-			picks = picks.map(p => {
+			
+			let picks2 = picks.map(p => {
 				return {a: toId(p.a.n), b: toId(p.b.n)}
 			})
-			// console.log(picks)
+
+			let ids = []
+			for(let i = 0; i < picks.length; ++i)
+				ids[picks2[i].a] = i;
+
+			// console.log(picks2)
 
 			let idsTargets = []
-			for(let i = 0; i < picks.length; ++i) {
-				idsTargets[picks[i].a] = idsIndex[picks[i].b];
+			for(let i = 0; i < picks2.length; ++i) {
+				idsTargets[picks2[i].a] = idsIndex[picks2[i].b];
 			}
 
 			// console.log(idsTargets)
 			
-			let check = []
-			
+			// let check = []
 
+			// let list = []
+			// for(let i = 0; i < picks.length; ++i) {
+			// 	list.push({n: picks[i].a.n, id: picks2[i].a, to: ids[picks2[i].b]})
+			// }
+			// console.log(list)
+			// let str = `let list = [`
+			// for(let i = 0; i < picks.length; ++i) {
+			// 	str += `{n:"${picks[i].a.n}", id:${picks2[i].a}, to:${ids[picks2[i].b]}},\n`
+			// }
+			// str+= `]`
+			// console.log(str)
+
+
+			
+			let list = [{n:"Grand-M", id:72149811004577, to:2},
+			{n:"Louis", id:7712180615, to:5},
+			{n:"Christine", id:680515061617061100, to:10},
+			{n:"Yaseniia", id:8998160211060597, to:11},
+			{n:"Grand-P", id:72149811004580, to:6},
+			{n:"Magalie", id:77980398090601, to:8},
+			{n:"Lucie", id:7718000601, to:4},
+			{n:"Diana", id:6905981097, to:13},
+			{n:"Brigitte", id:6715060406171701, to:14},
+			{n:"Paul", id:80981808, to:0},
+			{n:"Philipe", id:81050609061301, to:9},
+			{n:"Charles", id:68049815090215, to:7},
+			{n:"Erwan", id:7015199810, to:3},
+			{n:"Arnaud", id:661510981800, to:15},
+			{n:"Isabelle", id:7415979902090901, to:12},
+			{n:"Max", id:779820, to:1},
+]
+
+
+
+			
+			let listIds = []
+			for(let i = 0; i < list.length; ++i) {
+				listIds[list[i].id] = list[i].to;
+			}
 			
 			// for(let i = 0; i < members.length; ++i) {
 			// 	console.log(members[i].n, toId(members[i].n))
@@ -183,7 +227,7 @@ let members  = [
 
             // let target = list[user].t
             // let targetI = list[target].i
-			let targetI = idsTargets[user];
+			let targetI = listIds[user];
 			// targetI ??= parseInt(Math.random() * 30);
             // console.log(targetI, target, list[target].n)
 			// console.log(targetI)
@@ -284,10 +328,10 @@ let members  = [
             fontLoader.load('./helvetiker_regular.typeface.json', function (response){
                 font = response;
                 let material = new THREE.MeshBasicMaterial( { color: 0x000000 } );
-                for(let i = 0; i < members.length; ++i){
+                for(let i = 0; i < list.length; ++i){
                     materials[i] = new THREE.MeshBasicMaterial({color: new THREE.Color(Math.random() / 2, Math.random() / 2, Math.random() / 2)})
                     // let cube = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 1, 1), materials[i]);
-                    let mesh = create_text(members[i].n, materials[i], 1.35);
+                    let mesh = create_text(list[i].n, materials[i], 1.35);
                     let ray = new THREE.Mesh(new THREE.PlaneBufferGeometry( 0.05, 3 ), material) 
                     ray.position.y = 1.5
                     ray.position.z = -0.15

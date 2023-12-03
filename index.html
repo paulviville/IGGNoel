@@ -82,112 +82,112 @@ RNG.prototype.choice = function(array) {
 
 var rng = new RNG(2112125891012);
 
-let members  = [
-	{n: "Charles", c: 0},
-	{n: "Arnaud", c: 0},
-	{n: "Isabelle", c: 0},
-	{n: "Philipe", c: 0},
-	{n: "Lucie", c: 1},
-	{n: "Max", c: 1},
-	{n: "Magalie", c: 1},
-	{n: "Erwan", c: 1},
-	{n: "Christine", c: 1},
-	{n: "Yaseniia", c: 2},
-	{n: "Paul", c: 2},
-	{n: "Louis", c: 2},
-	{n: "Brigitte", c: 2},
-	{n: "Diana", c: 2},
-	{n: "Grand-P", c: 3},
-	{n: "Grand-M", c: 3},
-]
+// let members  = [
+// 	{n: "Charles", c: 0},
+// 	{n: "Arnaud", c: 0},
+// 	{n: "Isabelle", c: 0},
+// 	{n: "Philipe", c: 0},
+// 	{n: "Lucie", c: 1},
+// 	{n: "Max", c: 1},
+// 	{n: "Magalie", c: 1},
+// 	{n: "Erwan", c: 1},
+// 	{n: "Christine", c: 1},
+// 	{n: "Yaseniia", c: 2},
+// 	{n: "Paul", c: 2},
+// 	{n: "Louis", c: 2},
+// 	{n: "Brigitte", c: 2},
+// 	{n: "Diana", c: 2},
+// 	{n: "Grand-P", c: 3},
+// 	{n: "Grand-M", c: 3},
+// ]
 
 
-			members.sort(function(a, b) {
-                return rng.nextFloat() - rng.nextFloat();
-            });
+// 			members.sort(function(a, b) {
+//                 return rng.nextFloat() - rng.nextFloat();
+//             });
 
 
-			let pairs = []
-			for(let i = 0; i < members.length; ++i) {
-				pairs[i] = []
-				for(let j = 0; j < members.length; ++j) {
-					pairs[i][j] = {a: members[i], b: members[j]}
-					if(i == j)
-						pairs[i][j] = null;
-					if(members[i].c == members[j].c)
-						pairs[i][j] = null;
-				}	
-			}
+// 			let pairs = []
+// 			for(let i = 0; i < members.length; ++i) {
+// 				pairs[i] = []
+// 				for(let j = 0; j < members.length; ++j) {
+// 					pairs[i][j] = {a: members[i], b: members[j]}
+// 					if(i == j)
+// 						pairs[i][j] = null;
+// 					if(members[i].c == members[j].c)
+// 						pairs[i][j] = null;
+// 				}	
+// 			}
 
-			pairs.sort(function(a, b) {
-                return rng.nextFloat() - rng.nextFloat();
-            });
+// 			pairs.sort(function(a, b) {
+//                 return rng.nextFloat() - rng.nextFloat();
+//             });
 
 
 			
-			function toId(n) {
-				let i = 0;
-                for(let j = 0; j < n.length; j++)
-                    i = i * 100 + n.charCodeAt(j);
-				return i;
-			}
+// 			function toId(n) {
+// 				let i = 0;
+//                 for(let j = 0; j < n.length; j++)
+//                     i = i * 100 + n.charCodeAt(j);
+// 				return i;
+// 			}
 
-			let idsIndex = []
-			for(let i = 0; i < members.length; ++i) {
-				idsIndex[toId(members[i].n)] = i;
-			}
-			// console.log(idsIndex)
+// 			let idsIndex = []
+// 			for(let i = 0; i < members.length; ++i) {
+// 				idsIndex[toId(members[i].n)] = i;
+// 			}
+// 			// console.log(idsIndex)
 
-			let picks = []
-			// for(let i = 0; i < 2; ++i){
-			for(let i = 0; i < members.length; ++i){
-				// console.log(picks)
-				for(let j = 0; j < members.length; ++j){
-					if(pairs[i][j] == null)
-						continue;
-					picks.push(pairs[i][j]);
-					for(let k = 0; k < members.length; ++k) {
-						pairs[k][j] = null;
-					}
-					break;
-				}
-			}
-			// console.log(picks)
-			// for(let i = 0; i < picks.length; ++i){
-			// 	console.log(picks[i].a.n, picks[i].b.n)
-			// }
+// 			let picks = []
+// 			// for(let i = 0; i < 2; ++i){
+// 			for(let i = 0; i < members.length; ++i){
+// 				// console.log(picks)
+// 				for(let j = 0; j < members.length; ++j){
+// 					if(pairs[i][j] == null)
+// 						continue;
+// 					picks.push(pairs[i][j]);
+// 					for(let k = 0; k < members.length; ++k) {
+// 						pairs[k][j] = null;
+// 					}
+// 					break;
+// 				}
+// 			}
+// 			// console.log(picks)
+// 			// for(let i = 0; i < picks.length; ++i){
+// 			// 	console.log(picks[i].a.n, picks[i].b.n)
+// 			// }
 
 			
-			let picks2 = picks.map(p => {
-				return {a: toId(p.a.n), b: toId(p.b.n)}
-			})
+// 			let picks2 = picks.map(p => {
+// 				return {a: toId(p.a.n), b: toId(p.b.n)}
+// 			})
 
-			let ids = []
-			for(let i = 0; i < picks.length; ++i)
-				ids[picks2[i].a] = i;
+// 			let ids = []
+// 			for(let i = 0; i < picks.length; ++i)
+// 				ids[picks2[i].a] = i;
 
-			// console.log(picks2)
+// 			// console.log(picks2)
 
-			let idsTargets = []
-			for(let i = 0; i < picks2.length; ++i) {
-				idsTargets[picks2[i].a] = idsIndex[picks2[i].b];
-			}
+// 			let idsTargets = []
+// 			for(let i = 0; i < picks2.length; ++i) {
+// 				idsTargets[picks2[i].a] = idsIndex[picks2[i].b];
+// 			}
 
-			// console.log(idsTargets)
+// 			// console.log(idsTargets)
 			
-			// let check = []
+// 			// let check = []
 
-			// let list = []
-			// for(let i = 0; i < picks.length; ++i) {
-			// 	list.push({n: picks[i].a.n, id: picks2[i].a, to: ids[picks2[i].b]})
-			// }
-			// console.log(list)
-			// let str = `let list = [`
-			// for(let i = 0; i < picks.length; ++i) {
-			// 	str += `{n:"${picks[i].a.n}", id:${picks2[i].a}, to:${ids[picks2[i].b]}},\n`
-			// }
-			// str+= `]`
-			// console.log(str)
+// 			// let list = []
+// 			// for(let i = 0; i < picks.length; ++i) {
+// 			// 	list.push({n: picks[i].a.n, id: picks2[i].a, to: ids[picks2[i].b]})
+// 			// }
+// 			// console.log(list)
+// 			// let str = `let list = [`
+// 			// for(let i = 0; i < picks.length; ++i) {
+// 			// 	str += `{n:"${picks[i].a.n}", id:${picks2[i].a}, to:${ids[picks2[i].b]}},\n`
+// 			// }
+// 			// str+= `]`
+// 			// console.log(str)
 
 
 			
@@ -238,7 +238,7 @@ let members  = [
 
 
 
-            let nbParticipants = members.length;
+            let nbParticipants = list.length;
             let materials = [];
             const ZAxis = new THREE.Vector3(0, 0, 1);
             

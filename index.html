@@ -23,7 +23,7 @@
             console.log(ratio)
             const camera = new THREE.OrthographicCamera(-ratio * size,  ratio * size,  size, - size, 0.1, 1000.0);
             camera.position.set(0, 0, 2);
-            const renderer = new THREE.WebGLRenderer({antialias: false});
+            const renderer = new THREE.WebGLRenderer({antialias: true});
             renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.setClearColor('#EEEEEE');
             document.body.appendChild(renderer.domElement);
@@ -45,203 +45,39 @@
 
             let wheel = new THREE.Group;
             let wheel2 = new THREE.Group;
-            // scene.add(wheel2);
             scene.add(wheel);
             
+            const members = [
+                "Evan",
+                "Sylvain",
+                "Ben",
+                "Miguel",
+                "Romain",
+                "Martin",
+                "Paul",
+                "Amelie",
+                "Charline",
+                "Vino",
+                "Flavien",
+                "Joris",
+                "Brigitte",
+            ]
 
 
 
+            const list = {
+            110981869: 12, 112110586: 6, 1020609020965: 4, 10211060914980468: 5, 111020618980870: 7, 11606151174: 9, 111059819092183: 0, 1090218040577: 2, 1110166: 1, 109179780: 3, 1110598101182: 8, 1110617149777: 11, 10217170604061466: 10,
+            };
 
-
-function RNG(seed) {
-  // LCG using GCC's constants
-  this.m = 0x80000000; // 2**31;
-  this.a = 1103515245;
-  this.c = 12345;
-
-  this.state = seed ? seed : Math.floor(Math.random() * (this.m - 1));
-}
-RNG.prototype.nextInt = function() {
-  this.state = (this.a * this.state + this.c) % this.m;
-  return this.state;
-}
-RNG.prototype.nextFloat = function() {
-  // returns in range [0,1]
-  return this.nextInt() / (this.m - 1);
-}
-RNG.prototype.nextRange = function(start, end) {
-  // returns in range [start, end): including start, excluding end
-  // can't modulu nextInt because of weak randomness in lower bits
-  var rangeSize = end - start;
-  var randomUnder1 = this.nextInt() / this.m;
-  return start + Math.floor(randomUnder1 * rangeSize);
-}
-RNG.prototype.choice = function(array) {
-  return array[this.nextRange(0, array.length)];
-}
-
-var rng = new RNG(2112125891012);
-
-// let members  = [
-// 	{n: "Charles", c: 0},
-// 	{n: "Arnaud", c: 0},
-// 	{n: "Isabelle", c: 0},
-// 	{n: "Philipe", c: 0},
-// 	{n: "Lucie", c: 1},
-// 	{n: "Max", c: 1},
-// 	{n: "Magalie", c: 1},
-// 	{n: "Erwan", c: 1},
-// 	{n: "Christine", c: 1},
-// 	{n: "Yaseniia", c: 2},
-// 	{n: "Paul", c: 2},
-// 	{n: "Louis", c: 2},
-// 	{n: "Brigitte", c: 2},
-// 	{n: "Diana", c: 2},
-// 	{n: "Grand-P", c: 3},
-// 	{n: "Grand-M", c: 3},
-// ]
-
-
-// 			members.sort(function(a, b) {
-//                 return rng.nextFloat() - rng.nextFloat();
-//             });
-
-
-// 			let pairs = []
-// 			for(let i = 0; i < members.length; ++i) {
-// 				pairs[i] = []
-// 				for(let j = 0; j < members.length; ++j) {
-// 					pairs[i][j] = {a: members[i], b: members[j]}
-// 					if(i == j)
-// 						pairs[i][j] = null;
-// 					if(members[i].c == members[j].c)
-// 						pairs[i][j] = null;
-// 				}	
-// 			}
-
-// 			pairs.sort(function(a, b) {
-//                 return rng.nextFloat() - rng.nextFloat();
-//             });
-
-
-			
-// 			function toId(n) {
-// 				let i = 0;
-//                 for(let j = 0; j < n.length; j++)
-//                     i = i * 100 + n.charCodeAt(j);
-// 				return i;
-// 			}
-
-// 			let idsIndex = []
-// 			for(let i = 0; i < members.length; ++i) {
-// 				idsIndex[toId(members[i].n)] = i;
-// 			}
-// 			// console.log(idsIndex)
-
-// 			let picks = []
-// 			// for(let i = 0; i < 2; ++i){
-// 			for(let i = 0; i < members.length; ++i){
-// 				// console.log(picks)
-// 				for(let j = 0; j < members.length; ++j){
-// 					if(pairs[i][j] == null)
-// 						continue;
-// 					picks.push(pairs[i][j]);
-// 					for(let k = 0; k < members.length; ++k) {
-// 						pairs[k][j] = null;
-// 					}
-// 					break;
-// 				}
-// 			}
-// 			// console.log(picks)
-// 			// for(let i = 0; i < picks.length; ++i){
-// 			// 	console.log(picks[i].a.n, picks[i].b.n)
-// 			// }
-
-			
-// 			let picks2 = picks.map(p => {
-// 				return {a: toId(p.a.n), b: toId(p.b.n)}
-// 			})
-
-// 			let ids = []
-// 			for(let i = 0; i < picks.length; ++i)
-// 				ids[picks2[i].a] = i;
-
-// 			// console.log(picks2)
-
-// 			let idsTargets = []
-// 			for(let i = 0; i < picks2.length; ++i) {
-// 				idsTargets[picks2[i].a] = idsIndex[picks2[i].b];
-// 			}
-
-// 			// console.log(idsTargets)
-			
-// 			// let check = []
-
-// 			// let list = []
-// 			// for(let i = 0; i < picks.length; ++i) {
-// 			// 	list.push({n: picks[i].a.n, id: picks2[i].a, to: ids[picks2[i].b]})
-// 			// }
-// 			// console.log(list)
-// 			// let str = `let list = [`
-// 			// for(let i = 0; i < picks.length; ++i) {
-// 			// 	str += `{n:"${picks[i].a.n}", id:${picks2[i].a}, to:${ids[picks2[i].b]}},\n`
-// 			// }
-// 			// str+= `]`
-// 			// console.log(str)
-
-
-			
-			let list = [{n:"Grand-M", id:72149811004577, to:2},
-			{n:"Louis", id:7712180615, to:5},
-			{n:"Christine", id:680515061617061100, to:10},
-			{n:"Yaseniia", id:8998160211060597, to:11},
-			{n:"Grand-P", id:72149811004580, to:6},
-			{n:"Magalie", id:77980398090601, to:8},
-			{n:"Lucie", id:7718000601, to:4},
-			{n:"Diana", id:6905981097, to:13},
-			{n:"Brigitte", id:6715060406171701, to:14},
-			{n:"Paul", id:80981808, to:0},
-			{n:"Philipe", id:81050609061301, to:9},
-			{n:"Charles", id:68049815090215, to:7},
-			{n:"Erwan", id:7015199810, to:3},
-			{n:"Arnaud", id:661510981800, to:15},
-			{n:"Isabelle", id:7415979902090901, to:12},
-			{n:"Max", id:779820, to:1},
-]
-
-
-
-			
-			let listIds = []
-			for(let i = 0; i < list.length; ++i) {
-				listIds[list[i].id] = list[i].to;
-			}
-			
-			// for(let i = 0; i < members.length; ++i) {
-			// 	console.log(members[i].n, toId(members[i].n))
-			// }
 
 
             let user = parseInt(window.location.search.split("?")[1]);
-            // console.log(user)
-
-            // let target = list[user].t
-            // let targetI = list[target].i
-			let targetI = listIds[user];
-			// targetI ??= parseInt(Math.random() * 30);
-            // console.log(targetI, target, list[target].n)
-			// console.log(targetI)
-
-			// console.log(members[targetI], names[targetI])
+            let targetI = list[user]
 
 
-
-
-
-            let nbParticipants = list.length;
+            let nbParticipants = members.length;
             let materials = [];
             const ZAxis = new THREE.Vector3(0, 0, 1);
-            
 
             const texture = THREE.ImageUtils.loadTexture("gift3.png");
             let play_cube = new THREE.Mesh(new THREE.BoxBufferGeometry(1.25, 1.25, 1), new THREE.MeshBasicMaterial({color: 0xEEEEEE, map: texture}));
@@ -249,14 +85,12 @@ var rng = new RNG(2112125891012);
             scene.add(play_cube);
 
             let geometry = new THREE.CircleBufferGeometry( 0.77,  64);
-            // geometry = new THREE.EdgesGeometry(geometry);
             let material = new THREE.MeshBasicMaterial( { color: 0x000000 } );
             let circle = new THREE.Mesh( geometry, material );
             circle.position.z -= 0.01;
             scene.add( circle );
 
             geometry = new THREE.CircleBufferGeometry( 0.95,  64);
-            // geometry = new THREE.EdgesGeometry(geometry);
             material = new THREE.MeshBasicMaterial( { color: 0xEEEEEE } );
             circle = new THREE.Mesh( geometry, material );
             circle.position.z = 0;
@@ -328,10 +162,10 @@ var rng = new RNG(2112125891012);
             fontLoader.load('./helvetiker_regular.typeface.json', function (response){
                 font = response;
                 let material = new THREE.MeshBasicMaterial( { color: 0x000000 } );
-                for(let i = 0; i < list.length; ++i){
+                for(let i = 0; i < members.length; ++i){
                     materials[i] = new THREE.MeshBasicMaterial({color: new THREE.Color(Math.random() / 2, Math.random() / 2, Math.random() / 2)})
                     // let cube = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 1, 1), materials[i]);
-                    let mesh = create_text(list[i].n, materials[i], 1.35);
+                    let mesh = create_text(members[i], materials[i], 1.35);
                     let ray = new THREE.Mesh(new THREE.PlaneBufferGeometry( 0.05, 3 ), material) 
                     ray.position.y = 1.5
                     ray.position.z = -0.15
